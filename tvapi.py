@@ -124,9 +124,39 @@ class Api(object):
         if 'SubtitlesList' in result and len(result['SubtitlesList']) > 0:
             subtitlesUri = result['SubtitlesList'][0]['Uri']
 
+        try:
+            qualityIndex = int(ADDON.getSetting('video.quality'))
+        except:
+            qualityIndex = 0
+
+        if qualityIndex != 0:
+            if qualityIndex == 1:
+                resolution = ADDON.getLocalizedString(30522)
+                uri = uri.replace("master.m3u8", "index_5_av.m3u8?null=0")
+            elif qualityIndex == 2:
+                resolution = ADDON.getLocalizedString(30523)
+                uri = uri.replace("master.m3u8", "index_4_av.m3u8?null=0")
+            elif qualityIndex == 3:
+                resolution = ADDON.getLocalizedString(30524)
+                uri = uri.replace("master.m3u8", "index_3_av.m3u8?null=0")
+            elif qualityIndex == 4:
+                resolution = ADDON.getLocalizedString(30525)
+                uri = uri.replace("master.m3u8", "index_2_av.m3u8?null=0")
+            elif qualityIndex == 5:
+                resolution = ADDON.getLocalizedString(30526)
+                uri = uri.replace("master.m3u8", "index_1_av.m3u8?null=0")
+            elif qualityIndex == 6:
+                resolution = ADDON.getLocalizedString(30527)
+                uri = uri.replace("master.m3u8", "index_0_av.m3u8?null=0")
+            else:
+                resolution = "unknown" 
+        else: 
+            resolution = ADDON.getLocalizedString(30517)
+
         return {
             'Uri': uri,
-            'SubtitlesUri': subtitlesUri
+            'SubtitlesUri': subtitlesUri,
+            'Resolution': resolution
         }
 
     def _handle_paging(self, result):
